@@ -2,6 +2,5 @@
 
 To run:
 
-Put names.txt, scores.txt, snakeGame.pde in a new folder   
-Put the rest of the files in a folder named "data" and put it in the folder from above  
+Put names.txt, scores.txt, snakeGame.pde in the same directory as data
 Open and run snakeGame.pde in Processing 3
