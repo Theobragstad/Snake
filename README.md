@@ -1,10 +1,6 @@
 # snake
 
-To run:
-
-Put names.txt, scores.txt, snakeGame.pde in the same directory as data  
-Open and run snakeGame.pde in Processing 3
-
+Run: put names.txt, scores.txt, snakeGame.pde in the same directory as the "data" folder, open and run snakeGame.pde in Processing 3
 
 
 Ideas for future improvements:  
