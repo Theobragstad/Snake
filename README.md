@@ -17,4 +17,4 @@ In-game screenshots:
 Ideas for future improvements:  
 -ensure that fruits are never spawned on top of the snake  
 -add more game modes  
--fix checkbox issue  
+-fix minor checkbox issue  
