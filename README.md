@@ -13,8 +13,7 @@ In-game screenshots:
 
 
 
-
-Ideas for future improvements:  
--ensure that fruits are never spawned on top of the snake  
--add more game modes  
--fix minor checkbox issue  
+Future improvements:  
+- [ ] ensure that fruits are never spawned on top of the snake  
+- [ ] add more game modes  
+- [ ] fix minor checkbox issue  
