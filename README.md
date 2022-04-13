@@ -3,7 +3,7 @@
 New version of the classic snake game.  
 Created in AP CS A, April 2021.
 
-I used Processing for this game because of its visually appealing nature, similarity to Java, and the easy with which it allows for simple animation.   
+I used Processing for this game because of its visually appealing nature, similarity to Java, and the ease with which it allows for simple animation.   
 
 To run: put names.txt, scores.txt, snakeGame.pde in the same directory as the "data" folder, open and run snakeGame.pde in Processing 3    
 
