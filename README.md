@@ -1,10 +1,10 @@
 # snake
 
-New version of the classic snake game.  
+New version of the classic snake game 
 
 I used Processing for this game because of its inherently visual/art-based nature, similarity to Java, and the ease with which it allows for simple animation.   
 
-To run: put names.txt, scores.txt, snake.pde in the same directory as the "data" folder, open and run snake.pde in Processing 3+  
+To run: put names.txt, scores.txt, snake.pde in the same directory as the "data" folder; then, open and run snake.pde in Processing 3 and above.  
 
 Game screenshots:  
 
