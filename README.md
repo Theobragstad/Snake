@@ -16,3 +16,4 @@ future improvement ideas:
 - [ ] ensure that fruits are never spawned on top of the snake  
 - [ ] add more game modes  
 - [ ] fix minor checkbox issue  
+- [ ] improve pause feature
