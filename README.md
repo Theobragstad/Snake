@@ -1,4 +1,4 @@
-# snake
+# Snake
 
 New version of the classic snake game 
 ___
