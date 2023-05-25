@@ -1,7 +1,7 @@
 import java.util.*;
 boolean start = false, options = false, dead = false, canDraw = true, paused = false, add = false, endInput = false;
 int headAngle = 0, time = 0, snakeLength = 1, i = 0, score;
-String[] fruitNames = {"strawberry.png", "grape.png", "apple.png", "orange.png", "cherry.png", "grapefruit.png"};
+String[] fruitNames = {"strawberry.png", "grape.png", "apple.png", "orange.png", "cherry.png", "grapefruit.png", "banana.png"};
 PImage[] fruitImages = new PImage[fruitNames.length];
 Checkbox[] checkBoxes = new Checkbox[9];
 Fruit[] fruitObjects;
