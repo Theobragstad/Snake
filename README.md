@@ -26,9 +26,9 @@ How to run:
 <br>
 
 Future improvement ideas    
-- Ensure that fruits are never spawned on top of the snake  
-- Add more game modes  
-- Fix minor checkbox issue  
+- [ ] Ensure that fruits are never spawned on top of the snake  
+- [ ] Add more game modes  
+- [ ] Fix minor checkbox issue  
 
 
 
