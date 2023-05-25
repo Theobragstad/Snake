@@ -4,7 +4,7 @@ New version of the classic snake game
 <br>
 
 Features:
-- Control a snake to eat as many fruits as possible and grow longer without running into yourself
+- Control a snake to eat as many fruits as possible and grow longer without running into your snake
 - Set snake color, speed
 - Allow snake to move through edges
 - Set number of fruits
