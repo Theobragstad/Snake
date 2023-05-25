@@ -1,4 +1,4 @@
-# Snake game
+#### Snake game
 
 New version of the classic snake game 
 <br>
