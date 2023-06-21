@@ -1,10 +1,10 @@
-#### Snake game
+#### <img src="/data/right.jpg" width="20px"/> Snake game
 
 New version of the classic snake game 
 <br>
 
 Features:
-- Control a snake to eat as many fruits as possible and grow longer without running into your snake
+- Control a snake to eat as many fruits as possible and grow longer without running into yourself
 - Set snake color, speed
 - Allow snake to move through edges
 - Set number of fruits
