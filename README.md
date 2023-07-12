@@ -5,12 +5,12 @@ New version of the classic snake game
 
 Features:
 - Control a snake to eat as many fruits as possible and grow longer without running into yourself
-- Set snake color, speed
-- Allow snake to move through edges
+- Set snake color and speed
+- Allow snake to move through edges or not
 - Set number of fruits
-- Set fruits to move
+- Set fruits to move or stay still
 - Save score
-- View top scores on leaderboard
+- View top scores on the leaderboard
 - And more!
 <br><br>
 
@@ -26,9 +26,9 @@ How to run:
 <br>
 
 Future improvement ideas    
-- [ ] Ensure that fruits are never spawned on top of the snake  
+- [ ] Ensure that fruits are never placed on top of the snake  
 - [ ] Add more game modes  
-- [ ] Fix minor checkbox issue/UI improvements
+- [ ] Fix checkbox bug/UI improvements
 
 
 
