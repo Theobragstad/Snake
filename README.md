@@ -1,6 +1,6 @@
 #### <img src="/data/right.jpg" width="20px"/> Snake game
 
-New version of the classic snake game 
+New and improved version of the classic snake game 
 <br>
 
 Features:
