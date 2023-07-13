@@ -29,7 +29,9 @@ How to run:
 Future improvement ideas    
 - [ ] Ensure that fruits are never placed on top of the snake  
 - [ ] Add more game modes  
-- [ ] Fix checkbox bug/UI improvements
+- [ ] Fix checkbox bug
+- [ ] Save settings on replay
+- [ ] Improve text display
 
 
 
