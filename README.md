@@ -30,4 +30,4 @@ Future improvement ideas
 - [ ] Add more game modes and variable point calculations
 
 
-https://user-images.githubusercontent.com/48075045/210168416-d8e7a83e-6701-419a-b1de-a2d7bfe2d1d5.mov
+<!-- https://user-images.githubusercontent.com/48075045/210168416-d8e7a83e-6701-419a-b1de-a2d7bfe2d1d5.mov -->

@@ -5,7 +5,7 @@ boolean start = false, options = false, dead = false, canDraw = true, paused = f
 int headAngle = 0, time = 0, snakeLength = 30, i = 0, score;
 String[] fruitNames = {
   "strawberry.png",
-  "grape.png",
+  "grapes.png",
   "apple.png",
   "orange.png",
   "cherry.png",
@@ -264,7 +264,6 @@ void startScreenVisuals() {
   text("Press return to play", 173, 280);
   fill(255, 223, 0);
   text("use the arrow keys to move", 155, 320);
-  text("press shift to pause/play", 158, 335);
   PImage settings = loadImage("settings.png");
   settings.resize(25, 25);
   image(settings, 453, 24);
@@ -280,6 +279,7 @@ void loadFruitImages() {
   fruitObjects = new Fruit[fruitCount];
   for (int i = 0; i < fruitNames.length; i++) {
     fruitImages[i] = loadImage(fruitNames[i]);
+    fruitImages[i].resize(23, 23);
   }
   for (int i = 0; i < fruitObjects.length; i++) {
     fruitObjects[i] = new Fruit(random(30, width - 30), random(30, height - 30), fruitImages[(int) random(0, fruitNames.length)]);
@@ -378,10 +378,6 @@ void grow() {
   }
 }
 
-
-
-////
-
 boolean isSnakeOverlappingFruit(int fruitIndex) {
   int fruitX = fruitObjects[fruitIndex].getX();
   int fruitY = fruitObjects[fruitIndex].getY();
@@ -415,8 +411,6 @@ void positionNewFruit(int fruitIndex) {
   } while (overlap);
 }
 
-///
-
 void onEdge() {
   if (!checkBoxes[0].getChecked()) {
     if (headAngle == 180 && headX.get(0) + 10 <= 0) {
@@ -438,17 +432,7 @@ void onEdge() {
   }
 }
 
-//void displayFruits() {
-//  for (int i = 0; i < fruitObjects.length; i++) {
-//    if (fruitObjects[i].getDraw()) {
-//      image(fruitObjects[i].getImg(), fruitObjects[i].getX(), fruitObjects[i].getY());
-//      if (checkBoxes[8].getChecked()) {
 
-//        fruitObjects[i].move();
-//      }
-//    }
-//  }
-//}
 
 void displayFruits() {
   for (int i = 0; i < fruitObjects.length; i++) {
@@ -508,11 +492,7 @@ void keyPressed() {
   if (dead) {
     nameInput();
   }
-  //if (keyCode == SHIFT) {
-  //  paused = !paused;
-        
 
-  //}
   if (!paused) {
     if (keyCode == UP && headAngle != 270 && (headY.get(0) - 20) != headY.get(1)) {
       headAngle = 90;
@@ -556,105 +536,12 @@ void nameInput() {
   }
 }
 
-//void addToLeaderboard(String name, int score) {
-//  ArrayList < Person > people = new ArrayList < Person > ();
-
-//  String[] names = loadStrings("names.txt");
-//  String[] scores = loadStrings("scores.txt");
-//  for (int i = 0; i < names.length; i++) {
-//    people.add(new Person(names[i], Integer.parseInt(scores[i])));
-//  }
-
-//  people.add(new Person(name, score));
-//  Collections.sort(people);
-
-//  String[] newNames = new String[1];
-//  String[] newScores = new String[1];
-
-//  if (people.size() > 2) {
-//    newNames = new String[3];
-//    newScores = new String[3];
-//    for (int i = 0; i < 3; i++) {
-//      newNames[i] = people.get(i).returnName();
-//      newScores[i] = String.valueOf(people.get(i).returnScore());
-//    }
-//  } else if (people.size() == 2) {
-//    newNames = new String[2];
-//    newScores = new String[2];
-//    for (int i = 0; i < 2; i++) {
-//      newNames[i] = people.get(i).returnName();
-//      newScores[i] = String.valueOf(people.get(i).returnScore());
-//    }
-//  } else if (people.size() == 0) {
-//    newNames = new String[0];
-//    newScores = new String[0];
-//    for (int i = 0; i < 1; i++) {
-//      newNames[i] = people.get(i).returnName();
-//      newScores[i] = String.valueOf(people.get(i).returnScore());
-//    }
-//  }
-//  saveStrings("names.txt", newNames);
-//  saveStrings("scores.txt", newScores);
-
-//  displayLeaderboard(newScores, newNames);
-//}
-
-
-//void addToLeaderboard(String name, int score) {
-//  ArrayList<Person> people = new ArrayList<Person>();
-
-//  String[] names = loadStrings("names.txt");
-//  String[] scores = loadStrings("scores.txt");
-
-//  if (names == null || scores == null || names.length != scores.length) {
-//    // Files are empty or not present, create new files and add the new entry
-//    names = new String[]{name};
-//    scores = new String[]{String.valueOf(score)};
-//  } else {
-//    // Files exist, load the existing entries
-//    for (int i = 0; i < names.length; i++) {
-//      people.add(new Person(names[i], Integer.parseInt(scores[i])));
-//    }
-
-//    // Add the new entry
-//    people.add(new Person(name, score));
-
-//    // Sort the entries in descending order by score
-//    Collections.sort(people, new Comparator<Person>() {
-//      public int compare(Person p1, Person p2) {
-//        return Integer.compare(p2.returnScore(), p1.returnScore());
-//      }
-//    });
-
-//    // Update the names and scores arrays
-//    names = new String[people.size()];
-//    scores = new String[people.size()];
-//    for (int i = 0; i < people.size(); i++) {
-//      names[i] = people.get(i).returnName();
-//      scores[i] = String.valueOf(people.get(i).returnScore());
-//    }
-//  }
-
-//  saveStrings("names.txt", names);
-//  saveStrings("scores.txt", scores);
-
-//  // Retrieve only the top 3 entries for display
-//  String[] topNames = new String[Math.min(people.size(), 3)];
-//  String[] topScores = new String[Math.min(people.size(), 3)];
-//  for (int i = 0; i < Math.min(people.size(), 3); i++) {
-//    topNames[i] = names[i];
-//    topScores[i] = scores[i];
-//  }
-
-//  displayLeaderboard(topScores, topNames);
-//}
 
 void addToLeaderboard(String name, int score) {
   // Check if leaderboard file exists
   File leaderboardFile = new File(dataPath("leaderboard.txt"));
   boolean fileExists = leaderboardFile.exists();
   
-  // If file doesn't exist, create a new one
   if (!fileExists) {
     try {
       leaderboardFile.createNewFile();
@@ -663,7 +550,6 @@ void addToLeaderboard(String name, int score) {
     }
   }
   
-  // Read the contents of the file and store them in an ArrayList
   ArrayList<String> leaderboardEntries = new ArrayList<String>();
   if (fileExists) {
     try {
@@ -678,18 +564,15 @@ void addToLeaderboard(String name, int score) {
     }
   }
   
-  // Append the new entry to the ArrayList
   String newEntry = name + "," + score;
   leaderboardEntries.add(newEntry);
   
-  // Sort the entries by score descending
   leaderboardEntries.sort((entry1, entry2) -> {
     int score1 = Integer.parseInt(entry1.split(",")[1]);
     int score2 = Integer.parseInt(entry2.split(",")[1]);
     return score2 - score1;
   });
   
-  // Write the sorted entries back to the file
   try {
     PrintWriter writer = new PrintWriter(new FileWriter(leaderboardFile));
     for (String entry : leaderboardEntries) {
@@ -709,7 +592,6 @@ void addToLeaderboard(String name, int score) {
     topNames[i] = entryParts[0];
   }
   
-  // Call the displayLeaderboard function with the top scores and names
   displayLeaderboard(topScores, topNames);
 }
 void displayLeaderboard(int[] topScores, String[] topNames) {
@@ -885,10 +767,8 @@ class Checkbox {
   if (mouseX > x && mouseX < x + 20 && mouseY > y && mouseY < y + 20) {
     checked = !checked;
     if (optionGroup == 0) {
-      // Update the edgeAllowed variable based on checkbox 0's state
       edgeAllowed = !checked;
     } else if (optionGroup == 1) {
-      // Update the secondaryColor variable based on the checked state of the option group 1 checkboxes
       if (checked) {
         if (this == checkBoxes[1]) {
           secondaryColor = "red";
@@ -898,7 +778,6 @@ class Checkbox {
           secondaryColor = "yellow";
         }
       } else {
-        // If none of the option group 1 checkboxes are checked, set secondaryColor to "none"
         boolean anyChecked = false;
         for (int i = 1; i <= 3; i++) {
           if (checkBoxes[i].getChecked()) {
@@ -911,7 +790,6 @@ class Checkbox {
         }
       }
     } else if (optionGroup == 2) {
-      // Update the numberOfFruits variable based on the checked state of the option group 2 checkboxes
       if (checked) {
         if (this == checkBoxes[4]) {
           numberOfFruits = 3;
@@ -919,7 +797,6 @@ class Checkbox {
           numberOfFruits = 5;
         }
       } else {
-        // If none of the option group 2 checkboxes are checked, set numberOfFruits to 1
         boolean anyChecked = false;
         for (int i = 4; i <= 5; i++) {
           if (checkBoxes[i].getChecked()) {
@@ -932,7 +809,6 @@ class Checkbox {
         }
       }
     } else if (optionGroup == 3) {
-      // Update the snakeSpeed variable based on the checked state of the option group 3 checkboxes
       if (checked) {
         if (this == checkBoxes[6]) {
           snakeSpeed = 1;
@@ -940,7 +816,6 @@ class Checkbox {
           snakeSpeed = 3;
         }
       } else {
-        // If none of the option group 3 checkboxes are checked, set snakeSpeed to 2
         boolean anyChecked = false;
         for (int i = 6; i <= 7; i++) {
           if (checkBoxes[i].getChecked()) {
@@ -953,11 +828,9 @@ class Checkbox {
         }
       }
     } else if (optionGroup == 4) {
-      // Update the fruitsMove variable based on the checked state of the option group 4 checkboxes
       fruitsMove = checked;
     }
 
-    // Uncheck other checkboxes in the same option group
     for (int i = 0; i < checkBoxes.length; i++) {
       if (checkBoxes[i] != this && checkBoxes[i].optionGroup == optionGroup) {
         checkBoxes[i].setChecked(false);
