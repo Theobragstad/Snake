@@ -49,10 +49,10 @@ void draw() {
 
 void restartButton() {
   fill(30, 144, 255);
-  rect(178, 465, 154, 22);
+  rect(178, 467, 170, 20);
   fill(255);
   textSize(16);
-  text("Restart", 225, 482);
+  text("Restart", 229, 485);
   if (mousePressed && mouseX <= 334 && mouseX >= 176 && mouseY <= 489 && mouseY >= 463) {
     resetVariables();
   }
@@ -83,6 +83,7 @@ void initializeSnake() {
   for (int i = 0; i < snakeLength + 1; i++) {
     headX.add(0);
     headY.add(0);
+
   }
   headX.set(0, 200);
   headY.set(0, 200);
@@ -119,18 +120,21 @@ void startScreen() {
 }
 
 void options() {
-  if (mousePressed && mouseX > 428 && mouseX < 462 && mouseY > 393 && mouseY < 427) {
+
+  if (mousePressed && mouseX > 453 && mouseX < 478 && mouseY > 24 && mouseY < 49) {
     options = true;
-    stroke(0);
-    fill(30, 144, 255);
-    rect(42, 85, 415, 336);
-    image(loadImage("backIcon.png"), 48, 100);
+    PImage border = loadImage("border.png");
+    border.resize(500, 500);
+    image(border, 0, 0);
+    PImage back = loadImage("back.png");
+    back.resize(30, 30);
+    image(back, 120, 140);
     textSize(42);
-    fill(255);
-    text("Settings", 85, 130);
+    fill(24, 216, 96);
+    text("Settings", 165, 170);
     displayOptions();
   }
-  if (mousePressed && mouseX > 46 && mouseX < 75 && mouseY > 90 && mouseY < 119) {
+  if (mousePressed && mouseX > 120 && mouseX < 150 && mouseY > 140 && mouseY < 170) {
     options = false;
   }
 }
@@ -146,7 +150,7 @@ void displayOptions() {
   fill(0);
   textSize(14);
   for (int i = 0; i < choices.length; i++) {
-    text(choices[i], 55, (i * 20) + 180);
+    text(choices[i], 105, (i * 20) + 220);
   }
 }
 
@@ -157,13 +161,16 @@ void displayCheckboxes() {
   onlyOneBoxSelected();
   if (options) {
     fill(0);
-    textSize(14);
-    text("3", checkBoxes[4].getX() + 3, checkBoxes[4].getY() + 12);
-    text("5", checkBoxes[5].getX() + 3, checkBoxes[5].getY() + 12);
+    font = createFont("font.ttf", 11);
+    textFont(font);
+    text("3", checkBoxes[4].getX() + 3, checkBoxes[4].getY() + 11);
+    text("5", checkBoxes[5].getX() + 3, checkBoxes[5].getY() + 11);
     textSize(10);
-    text(new String(Character.toChars(0x2193)), 155, 237);
-    text(new String(Character.toChars(0x2191)), 175, 238);
+    text(new String(Character.toChars(0x2193)), 215, 277);
+    text(new String(Character.toChars(0x2191)), 235, 278);
   }
+  font = createFont("pixel.otf", 11);
+  textFont(font);
 }
 
 void onlyOneBoxSelected() {
@@ -190,22 +197,27 @@ void onlyOneBoxSelected() {
 }
 
 void startScreenVisuals() {
-  font = createFont("font.ttf", 32);
+  font = createFont("pixel.otf", 32);
   textFont(font);
-  image(loadImage("colorPattern.png"), 30, 72);
-  image(loadImage("greenSnake.png"), 42, 85);
-  fill(255);
+  PImage border = loadImage("border.png");
+  border.resize(500, 500);
+  image(border, 0, 0);
+
+  PImage snake = loadImage("right.jpg");
+  snake.resize(30, 30);
+  image(snake, 310, 180);
+  fill(24, 216, 96);
   textSize(42);
-  text("Snake Game", 145, 245);
+  text("Snake", 190, 210);
+  fill(255, 165, 0);
   textSize(16);
-  text("Press return to play", 195, 280);
-  fill(30, 144, 255);
-  rect(195, 305, 140, 35);
-  fill(0);
-  textSize(12);
-  text("use arrow keys to move", 198, 320);
-  text("press shift to pause/play", 198, 335);
-  image(loadImage("settingsIcon.png"), 430, 395);
+  text("Press return to play", 173, 280);
+  fill(255, 223, 0);
+  text("use the arrow keys to move", 155, 320);
+  text("press shift to pause/play", 158, 335);
+  PImage settings = loadImage("settings.png");
+  settings.resize(25, 25);
+  image(settings, 453, 24);
 }
 
 void loadFruitImages() {
@@ -358,17 +370,19 @@ void gameOverScreen() {
   } else if (setSpeed() == 3) {
     score *= 2;
   }
+
   fill(0);
   stroke(0);
   textSize(30);
   text("Game over", 180, 200);
   textSize(20);
+  fill(24, 216, 96);
   text("score: " + score, 211, 250);
-  fill(30, 144, 255);
-  rect(178, 278, 154, 22);
+  fill(24, 216, 96);
+  rect(170, 278, 170, 20);
   fill(255);
   textSize(16);
-  text("Add to leaderboard", 180, 295);
+  text("Add to leaderboard", 179, 296);
 }
 
 void leaderboardAddPressed() {
@@ -377,6 +391,8 @@ void leaderboardAddPressed() {
       add = true;
     }
     if (add) {
+      fill(255);
+      rect(-10, -10, 510, 510);
       fill(0);
       textSize(14);
       text("Type initials: ", 210, 350);
@@ -482,7 +498,8 @@ void addToLeaderboard(String name, int score) {
 }
 
 void displayLeaderboard(String[] newScores, String[] newNames) {
-  image(loadImage("yellowSnake.png"), 0, 0);
+  fill(255);
+  rect(-10, -10, 510, 510);
   fill(0);
   textSize(20);
   text("Leaderboard:", 190, 350);
@@ -618,8 +635,8 @@ class Checkbox {
   int size = 12;
 
   Checkbox(float x, float y) {
-    this.x = x;
-    this.y = y;
+    this.x = x + 60;
+    this.y = y + 40;
     checked = false;
   }
 
@@ -627,6 +644,7 @@ class Checkbox {
     if (options) {
       stroke(0);
       fill(c);
+
       rect(x, y, size, size);
       if (checked) {
         line(x + (size / 4), y + (size / 2), x + (size / 2.7), y + (size / 1.3));
