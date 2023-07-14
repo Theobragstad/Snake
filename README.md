@@ -18,7 +18,7 @@ Features:
 I used Processing for this game because it is similar to Java and allows for simple yet effective animation  
 <br>
 
-How to run: 
+How to run:  
 - Download Processing 3+
 - Clone or download this repository into a new folder named 'snake' (the name is important)
 - Open and run 'snake.pde'
@@ -26,3 +26,7 @@ How to run:
 
 Future improvement ideas    
 - [ ] Add more game modes and variable point calculations
+
+
+https://github.com/Theobragstad/snake/assets/48075045/d38b53d4-3403-4741-99a4-25e1b190b507
+
