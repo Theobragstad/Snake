@@ -27,12 +27,7 @@ How to run:
 <br>
 
 Future improvement ideas    
-- [ ] Ensure that fruits are never placed on top of the snake  
-- [ ] Add more game modes  
-- [ ] Fix checkbox bug
-- [ ] Save settings on replay
-- [ ] Improve text display
-
+- [ ] Add more game modes and variable point calculations
 
 
 https://user-images.githubusercontent.com/48075045/210168416-d8e7a83e-6701-419a-b1de-a2d7bfe2d1d5.mov

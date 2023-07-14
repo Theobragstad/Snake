@@ -1,6 +1,8 @@
 import java.util.*;
+import java.io.*;
+
 boolean start = false, options = false, dead = false, canDraw = true, paused = false, add = false, endInput = false;
-int headAngle = 0, time = 0, snakeLength = 1, i = 0, score;
+int headAngle = 0, time = 0, snakeLength = 30, i = 0, score;
 String[] fruitNames = {
   "strawberry.png",
   "grape.png",
@@ -17,11 +19,22 @@ ArrayList < Integer > headX = new ArrayList < Integer > (), headY = new ArrayLis
 PFont font;
 String name = "";
 
+
+boolean edgeAllowed = true; 
+String secondaryColor = "none";
+int numberOfFruits = 1;
+int snakeSpeed = 2;
+boolean fruitsMove = false;
+
+
+
+
 void setup() {
   size(500, 500);
   background(248, 248, 255);
   initializeSnake();
   setupCheckboxes();
+
 }
 
 void draw() {
@@ -43,6 +56,14 @@ void draw() {
       gameOverScreen();
       leaderboardAddPressed();
       restartButton();
+    }
+  }
+  
+  if (!paused && fruitsMove) {
+    for (int i = 0; i < fruitObjects.length; i++) {
+      if (fruitObjects[i].getDraw() && fruitObjects[i].isMoving()) {
+        fruitObjects[i].move();
+      }
     }
   }
 }
@@ -69,7 +90,7 @@ void resetVariables() {
   endInput = false;
   headAngle = 0;
   time = 0;
-  snakeLength = 1;
+  snakeLength = 30;
   i = 0;
   name = "";
   headX.clear();
@@ -92,21 +113,47 @@ void initializeSnake() {
 void setupCheckboxes() {
   for (int i = 0; i < checkBoxes.length; i++) {
     if (i == 0) {
-      checkBoxes[i] = new Checkbox(300, 169);
+      checkBoxes[i] = new Checkbox(300, 169, 0);
+      checkBoxes[i].setChecked(!edgeAllowed);
     } else if (i < 4 && i > 0) {
-      checkBoxes[i] = new Checkbox(150 + (i * 20), 188);
+       checkBoxes[i] = new Checkbox(150 + (i * 20), 188, 1);
+      if (i == 1 && secondaryColor.equals("red")) {
+        checkBoxes[i].setChecked(true);
+      } else if (i == 2 && secondaryColor.equals("orange")) {
+        checkBoxes[i].setChecked(true);
+      } else if (i == 3 && secondaryColor.equals("yellow")) {
+        checkBoxes[i].setChecked(true);
+      }
     } else if (i > 3 && i < 6) {
-      checkBoxes[i] = new Checkbox(90 + (i * 20), 208);
+      checkBoxes[i] = new Checkbox(90 + (i * 20), 208, 2);
+       if (i == 4 && numberOfFruits == 3) {
+        checkBoxes[i].setChecked(true);
+      } else if (i == 5 && numberOfFruits == 5) {
+        checkBoxes[i].setChecked(true);
+      }
+     
     } else if (i > 5 && i < 8) {
-      checkBoxes[i] = new Checkbox(30 + (i * 20), 228);
+      checkBoxes[i] = new Checkbox(30 + (i * 20), 228, 3);
+        if (i == 6 && snakeSpeed == 1) {
+        checkBoxes[i].setChecked(true);
+      } else if (i == 7 && snakeSpeed == 3) {
+        checkBoxes[i].setChecked(true);
+      }
     } else if (i == 8) {
-      checkBoxes[i] = new Checkbox(140, 248);
+      checkBoxes[i] = new Checkbox(140, 248, 4);
+       checkBoxes[i].setChecked(fruitsMove);
     }
   }
   checkBoxes[1].setColor(color(255, 0, 0));
   checkBoxes[2].setColor(color(255, 165, 0));
   checkBoxes[3].setColor(color(255, 255, 0));
+  
+  
+
+  
 }
+
+
 
 void startScreen() {
   options();
@@ -121,7 +168,7 @@ void startScreen() {
 
 void options() {
 
-  if (mousePressed && mouseX > 453 && mouseX < 478 && mouseY > 24 && mouseY < 49) {
+  if (mousePressed && mouseX > 453 && mouseX < 478 && mouseY > 24 && mouseY < 49 && !options) {
     options = true;
     PImage border = loadImage("border.png");
     border.resize(500, 500);
@@ -134,10 +181,13 @@ void options() {
     text("Settings", 165, 170);
     displayOptions();
   }
-  if (mousePressed && mouseX > 120 && mouseX < 150 && mouseY > 140 && mouseY < 170) {
+  if (mousePressed && mouseX > 120 && mouseX < 150 && mouseY > 140 && mouseY < 170 && options) {
     options = false;
   }
 }
+
+
+
 
 void displayOptions() {
   String[] choices = {
@@ -236,6 +286,7 @@ void loadFruitImages() {
   }
 }
 
+
 int setSpeed() {
   int speed = 5;
   if (checkBoxes[6].getChecked()) {
@@ -319,11 +370,52 @@ void grow() {
       snakeLength++;
       headX.add(0);
       headY.add(0);
-      fruitObjects[i].setXYIS(random(30, width - 30), random(30, height - 30), fruitImages[(int) random(0, fruitNames.length)], random(-2, 2), random(-2, 2));
+            positionNewFruit(i);
+
+      //fruitObjects[i].setXYIS(random(30, width - 30), random(30, height - 30), fruitImages[(int) random(0, fruitNames.length)], random(-2, 2), random(-2, 2));
       fruitObjects[i].setDraw(true);
     }
   }
 }
+
+
+
+////
+
+boolean isSnakeOverlappingFruit(int fruitIndex) {
+  int fruitX = fruitObjects[fruitIndex].getX();
+  int fruitY = fruitObjects[fruitIndex].getY();
+
+  for (int i = 0; i < headX.size(); i++) {
+    if (headX.get(i) == fruitX && headY.get(i) == fruitY) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void positionNewFruit(int fruitIndex) {
+  boolean overlap;
+  do {
+    overlap = false;
+    int newX = (int) random(30, width - 30);
+    int newY = (int) random(30, height - 30);
+
+    // Check for overlap with snake's body
+    for (int i = 0; i < headX.size(); i++) {
+      if (dist(newX, newY, headX.get(i), headY.get(i)) < 30) {
+        overlap = true;
+        break;
+      }
+    }
+
+    if (!overlap) {
+      fruitObjects[fruitIndex].setXYIS(newX, newY, fruitImages[(int) random(0, fruitNames.length)], random(-2, 2), random(-2, 2));
+    }
+  } while (overlap);
+}
+
+///
 
 void onEdge() {
   if (!checkBoxes[0].getChecked()) {
@@ -346,16 +438,26 @@ void onEdge() {
   }
 }
 
+//void displayFruits() {
+//  for (int i = 0; i < fruitObjects.length; i++) {
+//    if (fruitObjects[i].getDraw()) {
+//      image(fruitObjects[i].getImg(), fruitObjects[i].getX(), fruitObjects[i].getY());
+//      if (checkBoxes[8].getChecked()) {
+
+//        fruitObjects[i].move();
+//      }
+//    }
+//  }
+//}
+
 void displayFruits() {
   for (int i = 0; i < fruitObjects.length; i++) {
     if (fruitObjects[i].getDraw()) {
       image(fruitObjects[i].getImg(), fruitObjects[i].getX(), fruitObjects[i].getY());
-      if (checkBoxes[8].getChecked()) {
-        fruitObjects[i].move();
-      }
     }
   }
 }
+
 
 void hideFruits() {
   for (int i = 0; i < fruitObjects.length; i++) {
@@ -406,11 +508,11 @@ void keyPressed() {
   if (dead) {
     nameInput();
   }
-  if (keyCode == SHIFT && !paused) {
-    paused = true;
-  } else if (keyCode == SHIFT && paused) {
-    paused = false;
-  }
+  //if (keyCode == SHIFT) {
+  //  paused = !paused;
+        
+
+  //}
   if (!paused) {
     if (keyCode == UP && headAngle != 270 && (headY.get(0) - 20) != headY.get(1)) {
       headAngle = 90;
@@ -454,59 +556,175 @@ void nameInput() {
   }
 }
 
+//void addToLeaderboard(String name, int score) {
+//  ArrayList < Person > people = new ArrayList < Person > ();
+
+//  String[] names = loadStrings("names.txt");
+//  String[] scores = loadStrings("scores.txt");
+//  for (int i = 0; i < names.length; i++) {
+//    people.add(new Person(names[i], Integer.parseInt(scores[i])));
+//  }
+
+//  people.add(new Person(name, score));
+//  Collections.sort(people);
+
+//  String[] newNames = new String[1];
+//  String[] newScores = new String[1];
+
+//  if (people.size() > 2) {
+//    newNames = new String[3];
+//    newScores = new String[3];
+//    for (int i = 0; i < 3; i++) {
+//      newNames[i] = people.get(i).returnName();
+//      newScores[i] = String.valueOf(people.get(i).returnScore());
+//    }
+//  } else if (people.size() == 2) {
+//    newNames = new String[2];
+//    newScores = new String[2];
+//    for (int i = 0; i < 2; i++) {
+//      newNames[i] = people.get(i).returnName();
+//      newScores[i] = String.valueOf(people.get(i).returnScore());
+//    }
+//  } else if (people.size() == 0) {
+//    newNames = new String[0];
+//    newScores = new String[0];
+//    for (int i = 0; i < 1; i++) {
+//      newNames[i] = people.get(i).returnName();
+//      newScores[i] = String.valueOf(people.get(i).returnScore());
+//    }
+//  }
+//  saveStrings("names.txt", newNames);
+//  saveStrings("scores.txt", newScores);
+
+//  displayLeaderboard(newScores, newNames);
+//}
+
+
+//void addToLeaderboard(String name, int score) {
+//  ArrayList<Person> people = new ArrayList<Person>();
+
+//  String[] names = loadStrings("names.txt");
+//  String[] scores = loadStrings("scores.txt");
+
+//  if (names == null || scores == null || names.length != scores.length) {
+//    // Files are empty or not present, create new files and add the new entry
+//    names = new String[]{name};
+//    scores = new String[]{String.valueOf(score)};
+//  } else {
+//    // Files exist, load the existing entries
+//    for (int i = 0; i < names.length; i++) {
+//      people.add(new Person(names[i], Integer.parseInt(scores[i])));
+//    }
+
+//    // Add the new entry
+//    people.add(new Person(name, score));
+
+//    // Sort the entries in descending order by score
+//    Collections.sort(people, new Comparator<Person>() {
+//      public int compare(Person p1, Person p2) {
+//        return Integer.compare(p2.returnScore(), p1.returnScore());
+//      }
+//    });
+
+//    // Update the names and scores arrays
+//    names = new String[people.size()];
+//    scores = new String[people.size()];
+//    for (int i = 0; i < people.size(); i++) {
+//      names[i] = people.get(i).returnName();
+//      scores[i] = String.valueOf(people.get(i).returnScore());
+//    }
+//  }
+
+//  saveStrings("names.txt", names);
+//  saveStrings("scores.txt", scores);
+
+//  // Retrieve only the top 3 entries for display
+//  String[] topNames = new String[Math.min(people.size(), 3)];
+//  String[] topScores = new String[Math.min(people.size(), 3)];
+//  for (int i = 0; i < Math.min(people.size(), 3); i++) {
+//    topNames[i] = names[i];
+//    topScores[i] = scores[i];
+//  }
+
+//  displayLeaderboard(topScores, topNames);
+//}
+
 void addToLeaderboard(String name, int score) {
-  ArrayList < Person > people = new ArrayList < Person > ();
-
-  String[] names = loadStrings("names.txt");
-  String[] scores = loadStrings("scores.txt");
-  for (int i = 0; i < names.length; i++) {
-    people.add(new Person(names[i], Integer.parseInt(scores[i])));
-  }
-
-  people.add(new Person(name, score));
-  Collections.sort(people);
-
-  String[] newNames = new String[1];
-  String[] newScores = new String[1];
-
-  if (people.size() > 2) {
-    newNames = new String[3];
-    newScores = new String[3];
-    for (int i = 0; i < 3; i++) {
-      newNames[i] = people.get(i).returnName();
-      newScores[i] = String.valueOf(people.get(i).returnScore());
-    }
-  } else if (people.size() == 2) {
-    newNames = new String[2];
-    newScores = new String[2];
-    for (int i = 0; i < 2; i++) {
-      newNames[i] = people.get(i).returnName();
-      newScores[i] = String.valueOf(people.get(i).returnScore());
-    }
-  } else if (people.size() == 0) {
-    newNames = new String[0];
-    newScores = new String[0];
-    for (int i = 0; i < 1; i++) {
-      newNames[i] = people.get(i).returnName();
-      newScores[i] = String.valueOf(people.get(i).returnScore());
+  // Check if leaderboard file exists
+  File leaderboardFile = new File(dataPath("leaderboard.txt"));
+  boolean fileExists = leaderboardFile.exists();
+  
+  // If file doesn't exist, create a new one
+  if (!fileExists) {
+    try {
+      leaderboardFile.createNewFile();
+    } catch (IOException e) {
+      println("Error creating leaderboard file: " + e.getMessage());
     }
   }
-  saveStrings("names.txt", newNames);
-  saveStrings("scores.txt", newScores);
-
-  displayLeaderboard(newScores, newNames);
+  
+  // Read the contents of the file and store them in an ArrayList
+  ArrayList<String> leaderboardEntries = new ArrayList<String>();
+  if (fileExists) {
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader(leaderboardFile));
+      String line;
+      while ((line = reader.readLine()) != null) {
+        leaderboardEntries.add(line);
+      }
+      reader.close();
+    } catch (IOException e) {
+      println("Error reading leaderboard file: " + e.getMessage());
+    }
+  }
+  
+  // Append the new entry to the ArrayList
+  String newEntry = name + "," + score;
+  leaderboardEntries.add(newEntry);
+  
+  // Sort the entries by score descending
+  leaderboardEntries.sort((entry1, entry2) -> {
+    int score1 = Integer.parseInt(entry1.split(",")[1]);
+    int score2 = Integer.parseInt(entry2.split(",")[1]);
+    return score2 - score1;
+  });
+  
+  // Write the sorted entries back to the file
+  try {
+    PrintWriter writer = new PrintWriter(new FileWriter(leaderboardFile));
+    for (String entry : leaderboardEntries) {
+      writer.println(entry);
+    }
+    writer.close();
+  } catch (IOException e) {
+    println("Error writing to leaderboard file: " + e.getMessage());
+  }
+  
+  // Extract the top 3 scores and names
+  int[] topScores = new int[3];
+  String[] topNames = new String[3];
+  for (int i = 0; i < Math.min(3, leaderboardEntries.size()); i++) {
+    String[] entryParts = leaderboardEntries.get(i).split(",");
+    topScores[i] = Integer.parseInt(entryParts[1]);
+    topNames[i] = entryParts[0];
+  }
+  
+  // Call the displayLeaderboard function with the top scores and names
+  displayLeaderboard(topScores, topNames);
 }
-
-void displayLeaderboard(String[] newScores, String[] newNames) {
+void displayLeaderboard(int[] topScores, String[] topNames) {
   fill(255);
   rect(-10, -10, 510, 510);
   fill(0);
   textSize(20);
   text("Leaderboard:", 190, 350);
   textSize(16);
-  for (int i = 0; i < newScores.length; i++) {
-    text(newNames[i] + ":", 210, 380 + (i * 20));
-    text(newScores[i], 272, 380 + (i * 20));
+  for (int i = 0; i < topScores.length; i++) {
+    if (topNames[i] != null && topScores[i] != 0) {
+      text(topNames[i] + ":", 220, 380 + (i * 20));
+    text(topScores[i], 282, 380 + (i * 20));
+    }
+    
   }
 }
 
@@ -549,9 +767,10 @@ boolean inAlphabet(char c) {
 }
 
 void mousePressed() {
+  if(options) {
   for (int i = 0; i < checkBoxes.length; i++) {
     checkBoxes[i].click();
-  }
+  }}
 }
 
 class Person implements Comparable < Person > {
@@ -587,6 +806,10 @@ class Fruit {
     this.y = y;
     this.img = img;
   }
+  
+   boolean isMoving() {
+    return xSpeed != 0 || ySpeed != 0;
+  }
 
   boolean getDraw() {
     return draw;
@@ -617,10 +840,10 @@ class Fruit {
   }
 
   void move() {
-    if (x >= width || x <= 0) {
+    if (x >= width-5 || x <= 5) {
       xSpeed *= -1;
     }
-    if (y >= height || y <= 0) {
+    if (y >= height-5 || y <= 5) {
       ySpeed *= -1;
     }
     x += xSpeed;
@@ -633,11 +856,13 @@ class Checkbox {
   boolean checked;
   color c = color(255);
   int size = 12;
+   int optionGroup; 
 
-  Checkbox(float x, float y) {
+  Checkbox(float x, float y, int optionGroup) {
     this.x = x + 60;
     this.y = y + 40;
     checked = false;
+     this.optionGroup = optionGroup;
   }
 
   void displayCheckBox() {
@@ -653,11 +878,94 @@ class Checkbox {
     }
   }
 
-  void click() {
-    if (mouseX > x && mouseX < x + 20 && mouseY > y && mouseY < y + 20) {
-      checked = !checked;
+
+
+ 
+ void click() {
+  if (mouseX > x && mouseX < x + 20 && mouseY > y && mouseY < y + 20) {
+    checked = !checked;
+    if (optionGroup == 0) {
+      // Update the edgeAllowed variable based on checkbox 0's state
+      edgeAllowed = !checked;
+    } else if (optionGroup == 1) {
+      // Update the secondaryColor variable based on the checked state of the option group 1 checkboxes
+      if (checked) {
+        if (this == checkBoxes[1]) {
+          secondaryColor = "red";
+        } else if (this == checkBoxes[2]) {
+          secondaryColor = "orange";
+        } else if (this == checkBoxes[3]) {
+          secondaryColor = "yellow";
+        }
+      } else {
+        // If none of the option group 1 checkboxes are checked, set secondaryColor to "none"
+        boolean anyChecked = false;
+        for (int i = 1; i <= 3; i++) {
+          if (checkBoxes[i].getChecked()) {
+            anyChecked = true;
+            break;
+          }
+        }
+        if (!anyChecked) {
+          secondaryColor = "none";
+        }
+      }
+    } else if (optionGroup == 2) {
+      // Update the numberOfFruits variable based on the checked state of the option group 2 checkboxes
+      if (checked) {
+        if (this == checkBoxes[4]) {
+          numberOfFruits = 3;
+        } else if (this == checkBoxes[5]) {
+          numberOfFruits = 5;
+        }
+      } else {
+        // If none of the option group 2 checkboxes are checked, set numberOfFruits to 1
+        boolean anyChecked = false;
+        for (int i = 4; i <= 5; i++) {
+          if (checkBoxes[i].getChecked()) {
+            anyChecked = true;
+            break;
+          }
+        }
+        if (!anyChecked) {
+          numberOfFruits = 1;
+        }
+      }
+    } else if (optionGroup == 3) {
+      // Update the snakeSpeed variable based on the checked state of the option group 3 checkboxes
+      if (checked) {
+        if (this == checkBoxes[6]) {
+          snakeSpeed = 1;
+        } else if (this == checkBoxes[7]) {
+          snakeSpeed = 3;
+        }
+      } else {
+        // If none of the option group 3 checkboxes are checked, set snakeSpeed to 2
+        boolean anyChecked = false;
+        for (int i = 6; i <= 7; i++) {
+          if (checkBoxes[i].getChecked()) {
+            anyChecked = true;
+            break;
+          }
+        }
+        if (!anyChecked) {
+          snakeSpeed = 2;
+        }
+      }
+    } else if (optionGroup == 4) {
+      // Update the fruitsMove variable based on the checked state of the option group 4 checkboxes
+      fruitsMove = checked;
+    }
+
+    // Uncheck other checkboxes in the same option group
+    for (int i = 0; i < checkBoxes.length; i++) {
+      if (checkBoxes[i] != this && checkBoxes[i].optionGroup == optionGroup) {
+        checkBoxes[i].setChecked(false);
+      }
     }
   }
+}
+
 
   boolean getChecked() {
     return checked;
