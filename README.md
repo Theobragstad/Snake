@@ -7,12 +7,12 @@ New and improved version of the classic snake game
 
 Features:
 - Control a snake to eat as many fruits as possible and grow longer without running into yourself
-- Set snake color and speed
-- Allow snake to move through edges or not
-- Set number of fruits
-- Set fruits to move or stay still
-- Save score
-- View top scores on the leaderboard
+- Set your snake's color and speed
+- Allow your snake to move through edges (or not)
+- Set the number of fruits
+- Set the fruits to move or stay still
+- Save your score
+- View the top scores on the leaderboard
 <br><br>
 
 I used Processing for this game because it is similar to Java and allows for simple yet effective animation  
@@ -26,6 +26,3 @@ How to run:
 
 Future improvement ideas    
 - [ ] Add more game modes and variable point calculations
-
-
-<!-- https://user-images.githubusercontent.com/48075045/210168416-d8e7a83e-6701-419a-b1de-a2d7bfe2d1d5.mov -->
