@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 boolean start = false, options = false, dead = false, canDraw = true, paused = false, add = false, endInput = false;
-int headAngle = 0, time = 0, snakeLength = 30, i = 0, score;
+int headAngle = 0, time = 0, snakeLength = 13, i = 0, score;
 String[] fruitNames = {
   "strawberry.png",
   "grapes.png",
@@ -88,7 +88,7 @@ void resetVariables() {
   endInput = false;
   headAngle = 0;
   time = 0;
-  snakeLength = 30;
+  snakeLength = 1;
   i = 0;
   name = "";
   headX.clear();
