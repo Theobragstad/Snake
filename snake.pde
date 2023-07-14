@@ -19,15 +19,11 @@ ArrayList < Integer > headX = new ArrayList < Integer > (), headY = new ArrayLis
 PFont font;
 String name = "";
 
-
-boolean edgeAllowed = true; 
+boolean edgeAllowed = true;
 String secondaryColor = "none";
 int numberOfFruits = 1;
 int snakeSpeed = 2;
 boolean fruitsMove = false;
-
-
-
 
 void setup() {
   size(500, 500);
@@ -58,7 +54,7 @@ void draw() {
       restartButton();
     }
   }
-  
+
   if (!paused && fruitsMove) {
     for (int i = 0; i < fruitObjects.length; i++) {
       if (fruitObjects[i].getDraw() && fruitObjects[i].isMoving()) {
@@ -70,13 +66,15 @@ void draw() {
 
 void restartButton() {
   fill(30, 144, 255);
-  rect(178, 467, 170, 20);
+  rect(170, 450, 170, 23);
   fill(255);
   textSize(16);
-  text("Restart", 229, 485);
-  if (mousePressed && mouseX <= 334 && mouseX >= 176 && mouseY <= 489 && mouseY >= 463) {
+  text("restart", 230, 467);
+  if (mousePressed && mouseX <= 340 && mouseX >= 170 && mouseY <= 473 && mouseY >= 450) {
     resetVariables();
   }
+  font = createFont("pixel.otf", 11);
+  textFont(font);
 }
 
 void resetVariables() {
@@ -116,7 +114,7 @@ void setupCheckboxes() {
       checkBoxes[i] = new Checkbox(300, 169, 0);
       checkBoxes[i].setChecked(!edgeAllowed);
     } else if (i < 4 && i > 0) {
-       checkBoxes[i] = new Checkbox(150 + (i * 20), 188, 1);
+      checkBoxes[i] = new Checkbox(150 + (i * 20), 188, 1);
       if (i == 1 && secondaryColor.equals("red")) {
         checkBoxes[i].setChecked(true);
       } else if (i == 2 && secondaryColor.equals("orange")) {
@@ -126,34 +124,29 @@ void setupCheckboxes() {
       }
     } else if (i > 3 && i < 6) {
       checkBoxes[i] = new Checkbox(90 + (i * 20), 208, 2);
-       if (i == 4 && numberOfFruits == 3) {
+      if (i == 4 && numberOfFruits == 3) {
         checkBoxes[i].setChecked(true);
       } else if (i == 5 && numberOfFruits == 5) {
         checkBoxes[i].setChecked(true);
       }
-     
+
     } else if (i > 5 && i < 8) {
       checkBoxes[i] = new Checkbox(30 + (i * 20), 228, 3);
-        if (i == 6 && snakeSpeed == 1) {
+      if (i == 6 && snakeSpeed == 1) {
         checkBoxes[i].setChecked(true);
       } else if (i == 7 && snakeSpeed == 3) {
         checkBoxes[i].setChecked(true);
       }
     } else if (i == 8) {
       checkBoxes[i] = new Checkbox(140, 248, 4);
-       checkBoxes[i].setChecked(fruitsMove);
+      checkBoxes[i].setChecked(fruitsMove);
     }
   }
   checkBoxes[1].setColor(color(255, 0, 0));
   checkBoxes[2].setColor(color(255, 165, 0));
   checkBoxes[3].setColor(color(255, 255, 0));
-  
-  
 
-  
 }
-
-
 
 void startScreen() {
   options();
@@ -170,9 +163,11 @@ void options() {
 
   if (mousePressed && mouseX > 453 && mouseX < 478 && mouseY > 24 && mouseY < 49 && !options) {
     options = true;
-    PImage border = loadImage("border.png");
-    border.resize(500, 500);
-    image(border, 0, 0);
+    //PImage border = loadImage("border.png");
+    //border.resize(500, 500);
+    //image(border, 0, 0);
+    fill(255);
+    rect(-10, -10, 510, 510);
     PImage back = loadImage("back.png");
     back.resize(30, 30);
     image(back, 120, 140);
@@ -185,9 +180,6 @@ void options() {
     options = false;
   }
 }
-
-
-
 
 void displayOptions() {
   String[] choices = {
@@ -249,21 +241,20 @@ void onlyOneBoxSelected() {
 void startScreenVisuals() {
   font = createFont("pixel.otf", 32);
   textFont(font);
-  PImage border = loadImage("border.png");
-  border.resize(500, 500);
-  image(border, 0, 0);
 
+  fill(255);
+  rect(-10, -10, 510, 510);
   PImage snake = loadImage("right.jpg");
   snake.resize(30, 30);
-  image(snake, 310, 180);
+  image(snake, 300, 180);
   fill(24, 216, 96);
   textSize(42);
-  text("Snake", 190, 210);
-  fill(255, 165, 0);
+  text("Snake", 180, 210);
+  font = createFont("font.ttf", 16);
+  textFont(font);
   textSize(16);
-  text("Press return to play", 173, 280);
-  fill(255, 223, 0);
-  text("use the arrow keys to move", 155, 320);
+  text("press return to start", 182, 280);
+  text("use the arrow keys to move", 156, 320);
   PImage settings = loadImage("settings.png");
   settings.resize(25, 25);
   image(settings, 453, 24);
@@ -285,7 +276,6 @@ void loadFruitImages() {
     fruitObjects[i] = new Fruit(random(30, width - 30), random(30, height - 30), fruitImages[(int) random(0, fruitNames.length)]);
   }
 }
-
 
 int setSpeed() {
   int speed = 5;
@@ -370,9 +360,8 @@ void grow() {
       snakeLength++;
       headX.add(0);
       headY.add(0);
-            positionNewFruit(i);
+      positionNewFruit(i);
 
-      //fruitObjects[i].setXYIS(random(30, width - 30), random(30, height - 30), fruitImages[(int) random(0, fruitNames.length)], random(-2, 2), random(-2, 2));
       fruitObjects[i].setDraw(true);
     }
   }
@@ -397,7 +386,6 @@ void positionNewFruit(int fruitIndex) {
     int newX = (int) random(30, width - 30);
     int newY = (int) random(30, height - 30);
 
-    // Check for overlap with snake's body
     for (int i = 0; i < headX.size(); i++) {
       if (dist(newX, newY, headX.get(i), headY.get(i)) < 30) {
         overlap = true;
@@ -432,8 +420,6 @@ void onEdge() {
   }
 }
 
-
-
 void displayFruits() {
   for (int i = 0; i < fruitObjects.length; i++) {
     if (fruitObjects[i].getDraw()) {
@@ -442,7 +428,6 @@ void displayFruits() {
   }
 }
 
-
 void hideFruits() {
   for (int i = 0; i < fruitObjects.length; i++) {
     fruitObjects[i].setDraw(false);
@@ -450,6 +435,9 @@ void hideFruits() {
 }
 
 void gameOverScreen() {
+  headX.clear();
+  headY.clear();
+
   score = snakeLength - 1;
   if (setSpeed() == 10) {
     score /= 2;
@@ -457,31 +445,38 @@ void gameOverScreen() {
     score *= 2;
   }
 
+  font = createFont("pixel.otf", 11);
+  textFont(font);
   fill(0);
-  stroke(0);
+  stroke(255);
   textSize(30);
   text("Game over", 180, 200);
+  font = createFont("font.ttf", 11);
+  textFont(font);
   textSize(20);
   fill(24, 216, 96);
+  fill(0);
   text("score: " + score, 211, 250);
   fill(24, 216, 96);
-  rect(170, 278, 170, 20);
+  rect(170, 278, 170, 23);
   fill(255);
   textSize(16);
-  text("Add to leaderboard", 179, 296);
+  text("add to leaderboard", 185, 296);
+
 }
 
 void leaderboardAddPressed() {
   if (!add) {
-    if (mousePressed && mouseX >= 176 && mouseX <= 334 && mouseY >= 276 && mouseY <= 302) {
+    if (mousePressed && mouseX >= 170 && mouseX <= 340 && mouseY >= 278 && mouseY <= 301) {
       add = true;
+
     }
-    if (add) {
+    if (add && dead) {
       fill(255);
       rect(-10, -10, 510, 510);
       fill(0);
       textSize(14);
-      text("Type initials: ", 210, 350);
+      text("type initials: ", 210, 350);
       textSize(10);
       text("press enter when done", 200, 400);
     }
@@ -489,7 +484,7 @@ void leaderboardAddPressed() {
 }
 
 void keyPressed() {
-  if (dead) {
+  if (dead && add) {
     nameInput();
   }
 
@@ -510,7 +505,9 @@ void keyPressed() {
 }
 
 void nameInput() {
-  textSize(14);
+  font = createFont("font.ttf", 16);
+  textFont(font);
+  textSize(20);
   if ((key == ENTER && name.length() > 0) || name.length() > 2 && key != BACKSPACE) {
     endInput = true;
     addToLeaderboard(name, score);
@@ -536,12 +533,10 @@ void nameInput() {
   }
 }
 
-
 void addToLeaderboard(String name, int score) {
-  // Check if leaderboard file exists
   File leaderboardFile = new File(dataPath("leaderboard.txt"));
   boolean fileExists = leaderboardFile.exists();
-  
+
   if (!fileExists) {
     try {
       leaderboardFile.createNewFile();
@@ -549,8 +544,8 @@ void addToLeaderboard(String name, int score) {
       println("Error creating leaderboard file: " + e.getMessage());
     }
   }
-  
-  ArrayList<String> leaderboardEntries = new ArrayList<String>();
+
+  ArrayList < String > leaderboardEntries = new ArrayList < String > ();
   if (fileExists) {
     try {
       BufferedReader reader = new BufferedReader(new FileReader(leaderboardFile));
@@ -563,27 +558,26 @@ void addToLeaderboard(String name, int score) {
       println("Error reading leaderboard file: " + e.getMessage());
     }
   }
-  
+
   String newEntry = name + "," + score;
   leaderboardEntries.add(newEntry);
-  
+
   leaderboardEntries.sort((entry1, entry2) -> {
     int score1 = Integer.parseInt(entry1.split(",")[1]);
     int score2 = Integer.parseInt(entry2.split(",")[1]);
     return score2 - score1;
   });
-  
+
   try {
     PrintWriter writer = new PrintWriter(new FileWriter(leaderboardFile));
-    for (String entry : leaderboardEntries) {
+    for (String entry: leaderboardEntries) {
       writer.println(entry);
     }
     writer.close();
   } catch (IOException e) {
     println("Error writing to leaderboard file: " + e.getMessage());
   }
-  
-  // Extract the top 3 scores and names
+
   int[] topScores = new int[3];
   String[] topNames = new String[3];
   for (int i = 0; i < Math.min(3, leaderboardEntries.size()); i++) {
@@ -591,22 +585,26 @@ void addToLeaderboard(String name, int score) {
     topScores[i] = Integer.parseInt(entryParts[1]);
     topNames[i] = entryParts[0];
   }
-  
+
   displayLeaderboard(topScores, topNames);
 }
 void displayLeaderboard(int[] topScores, String[] topNames) {
   fill(255);
   rect(-10, -10, 510, 510);
+  font = createFont("font.ttf", 16);
+  textFont(font);
+  //fill(255);
+  //rect(-10, -10, 510, 510);
   fill(0);
   textSize(20);
-  text("Leaderboard:", 190, 350);
+  text("Leaderboard:", 199, 350);
   textSize(16);
   for (int i = 0; i < topScores.length; i++) {
     if (topNames[i] != null && topScores[i] != 0) {
-      text(topNames[i] + ":", 220, 380 + (i * 20));
-    text(topScores[i], 282, 380 + (i * 20));
+      text(topNames[i] + ":", 214, 380 + (i * 20));
+      text(topScores[i], 276, 380 + (i * 20));
     }
-    
+
   }
 }
 
@@ -649,10 +647,11 @@ boolean inAlphabet(char c) {
 }
 
 void mousePressed() {
-  if(options) {
-  for (int i = 0; i < checkBoxes.length; i++) {
-    checkBoxes[i].click();
-  }}
+  if (options) {
+    for (int i = 0; i < checkBoxes.length; i++) {
+      checkBoxes[i].click();
+    }
+  }
 }
 
 class Person implements Comparable < Person > {
@@ -688,8 +687,8 @@ class Fruit {
     this.y = y;
     this.img = img;
   }
-  
-   boolean isMoving() {
+
+  boolean isMoving() {
     return xSpeed != 0 || ySpeed != 0;
   }
 
@@ -722,10 +721,10 @@ class Fruit {
   }
 
   void move() {
-    if (x >= width-5 || x <= 5) {
+    if (x >= width - 5 || x <= 5) {
       xSpeed *= -1;
     }
-    if (y >= height-5 || y <= 5) {
+    if (y >= height - 5 || y <= 5) {
       ySpeed *= -1;
     }
     x += xSpeed;
@@ -738,13 +737,13 @@ class Checkbox {
   boolean checked;
   color c = color(255);
   int size = 12;
-   int optionGroup; 
+  int optionGroup;
 
   Checkbox(float x, float y, int optionGroup) {
     this.x = x + 60;
     this.y = y + 40;
     checked = false;
-     this.optionGroup = optionGroup;
+    this.optionGroup = optionGroup;
   }
 
   void displayCheckBox() {
@@ -760,85 +759,81 @@ class Checkbox {
     }
   }
 
-
-
- 
- void click() {
-  if (mouseX > x && mouseX < x + 20 && mouseY > y && mouseY < y + 20) {
-    checked = !checked;
-    if (optionGroup == 0) {
-      edgeAllowed = !checked;
-    } else if (optionGroup == 1) {
-      if (checked) {
-        if (this == checkBoxes[1]) {
-          secondaryColor = "red";
-        } else if (this == checkBoxes[2]) {
-          secondaryColor = "orange";
-        } else if (this == checkBoxes[3]) {
-          secondaryColor = "yellow";
-        }
-      } else {
-        boolean anyChecked = false;
-        for (int i = 1; i <= 3; i++) {
-          if (checkBoxes[i].getChecked()) {
-            anyChecked = true;
-            break;
+  void click() {
+    if (mouseX > x && mouseX < x + 20 && mouseY > y && mouseY < y + 20) {
+      checked = !checked;
+      if (optionGroup == 0) {
+        edgeAllowed = !checked;
+      } else if (optionGroup == 1) {
+        if (checked) {
+          if (this == checkBoxes[1]) {
+            secondaryColor = "red";
+          } else if (this == checkBoxes[2]) {
+            secondaryColor = "orange";
+          } else if (this == checkBoxes[3]) {
+            secondaryColor = "yellow";
+          }
+        } else {
+          boolean anyChecked = false;
+          for (int i = 1; i <= 3; i++) {
+            if (checkBoxes[i].getChecked()) {
+              anyChecked = true;
+              break;
+            }
+          }
+          if (!anyChecked) {
+            secondaryColor = "none";
           }
         }
-        if (!anyChecked) {
-          secondaryColor = "none";
-        }
-      }
-    } else if (optionGroup == 2) {
-      if (checked) {
-        if (this == checkBoxes[4]) {
-          numberOfFruits = 3;
-        } else if (this == checkBoxes[5]) {
-          numberOfFruits = 5;
-        }
-      } else {
-        boolean anyChecked = false;
-        for (int i = 4; i <= 5; i++) {
-          if (checkBoxes[i].getChecked()) {
-            anyChecked = true;
-            break;
+      } else if (optionGroup == 2) {
+        if (checked) {
+          if (this == checkBoxes[4]) {
+            numberOfFruits = 3;
+          } else if (this == checkBoxes[5]) {
+            numberOfFruits = 5;
+          }
+        } else {
+          boolean anyChecked = false;
+          for (int i = 4; i <= 5; i++) {
+            if (checkBoxes[i].getChecked()) {
+              anyChecked = true;
+              break;
+            }
+          }
+          if (!anyChecked) {
+            numberOfFruits = 1;
           }
         }
-        if (!anyChecked) {
-          numberOfFruits = 1;
-        }
-      }
-    } else if (optionGroup == 3) {
-      if (checked) {
-        if (this == checkBoxes[6]) {
-          snakeSpeed = 1;
-        } else if (this == checkBoxes[7]) {
-          snakeSpeed = 3;
-        }
-      } else {
-        boolean anyChecked = false;
-        for (int i = 6; i <= 7; i++) {
-          if (checkBoxes[i].getChecked()) {
-            anyChecked = true;
-            break;
+      } else if (optionGroup == 3) {
+        if (checked) {
+          if (this == checkBoxes[6]) {
+            snakeSpeed = 1;
+          } else if (this == checkBoxes[7]) {
+            snakeSpeed = 3;
+          }
+        } else {
+          boolean anyChecked = false;
+          for (int i = 6; i <= 7; i++) {
+            if (checkBoxes[i].getChecked()) {
+              anyChecked = true;
+              break;
+            }
+          }
+          if (!anyChecked) {
+            snakeSpeed = 2;
           }
         }
-        if (!anyChecked) {
-          snakeSpeed = 2;
-        }
+      } else if (optionGroup == 4) {
+        fruitsMove = checked;
       }
-    } else if (optionGroup == 4) {
-      fruitsMove = checked;
-    }
 
-    for (int i = 0; i < checkBoxes.length; i++) {
-      if (checkBoxes[i] != this && checkBoxes[i].optionGroup == optionGroup) {
-        checkBoxes[i].setChecked(false);
+      for (int i = 0; i < checkBoxes.length; i++) {
+        if (checkBoxes[i] != this && checkBoxes[i].optionGroup == optionGroup) {
+          checkBoxes[i].setChecked(false);
+        }
       }
     }
   }
-}
-
 
   boolean getChecked() {
     return checked;
