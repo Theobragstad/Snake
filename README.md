@@ -26,6 +26,16 @@ How to run:
 
 Future improvement ideas    
 - [ ] Add more game modes and variable point calculations
+  - [ ] Lightbulb dark mode
+  - [ ] Danger fruits
+  - [ ] 2 snakes opposite moves
+  - [ ] Walls spawn
+  - [ ] Holes in snake
+  - [ ] Infinite map
+  - [ ] Safe mode
+- [ ] More snake colors
+- [ ] Background themes
+- [ ] More fruit types
 
 
 https://github.com/Theobragstad/snake/assets/48075045/d38b53d4-3403-4741-99a4-25e1b190b507
