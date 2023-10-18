@@ -15,7 +15,6 @@ Features:
 - View the top scores on the leaderboard
 <br><br>
 
-I used Processing for this game because it is similar to Java and allows for simple yet effective animation  
 <br>
 
 How to run:  
@@ -24,7 +23,7 @@ How to run:
 - Open and run 'snake.pde'
 <br>
 
-Future improvement ideas    
+Future improvements    
 - [ ] Add more game modes and variable point calculations
   - [ ] Lightbulb dark mode
   - [ ] Danger fruits
