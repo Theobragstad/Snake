@@ -3,6 +3,9 @@
 #### Snake (Updated)
 
 New and improved version of the classic snake game 
+
+https://github.com/Theobragstad/snake/assets/48075045/d38b53d4-3403-4741-99a4-25e1b190b507
+
 <br>
 
 Features:
@@ -35,7 +38,3 @@ Future improvements
 - [ ] More snake colors
 - [ ] Background themes
 - [ ] More fruit types
-
-
-https://github.com/Theobragstad/snake/assets/48075045/d38b53d4-3403-4741-99a4-25e1b190b507
-
