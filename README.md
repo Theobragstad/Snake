@@ -1,4 +1,4 @@
-<img src="/data/right.jpg" width="20px"/> 
+<img src="https://github.com/Theobragstad/snake-updated/assets/48075045/9860af70-aa5a-4c46-8eec-243e432d3419" width="200">
 
 #### Snake (Updated)
 
